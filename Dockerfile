@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ADD sources.list /etc/apt/sources.list
+ADD files/sources.list /etc/apt/sources.list
 RUN apt-get update && \
     apt-get install software-properties-common python-software-properties gcc -y && \
     apt-add-repository ppa:dolphin-emu/ppa
@@ -28,9 +28,6 @@ RUN export uid=1001 gid=33 && \
     chmod 0440 /etc/sudoers.d/developer && \
     chown ${uid}:${gid} -R /home/developer
 
-RUN git clone https://github.com/squidboylan/libdolphin.git \
-    /home/developer/libdolphin
-
 RUN git clone https://github.com/squidboylan/dolphin.git \
     /home/developer/dolphin && mkdir /home/developer/dolphin/build && \
     cd /home/developer/dolphin/build ; git checkout memorywatcher-fork; \
@@ -44,16 +41,18 @@ RUN mkdir -p /home/developer/.local/share/dolphin-emu/Games && \
 
 RUN chown -Rh developer /home/developer
 
-RUN virtualenv /home/developer/venv -p /usr/bin/python3 && \
-    /home/developer/venv/bin/pip install -r \
-    /home/developer/libdolphin/requirements.txt && \
-    /home/developer/venv/bin/pip install -e /home/developer/libdolphin && chown -Rh developer /home/developer/venv
-
 ENV PATH /home/squid/firefox:/home/squid/bin:/home/squid/bin:/usr/local/bin:/usr/bin:/bin:/usr/lib/mit/sbin
 RUN rm -rf /var/lib/apt/lists/*
+
+ADD files/start.sh /home/developer/start.sh
+ADD files/GameSettings /home/developer/.local/share/dolphin-emu/GameSettings
+ADD files/dolphin-emu /home/developer/.config/dolphin-emu
+ADD files/start.sh /home/developer/start.sh
+
+RUN chown developer -Rh /home/developer ; chmod +x /home/developer/start.sh
 
 USER developer
 ENV HOME /home/developer
 ENV DISPLAY :0
 
-CMD ["/home/developer/venv/bin/python3", "/home/developer/libdolphin/libdolphin/dolphin.py", "fox"]
+CMD ["/home/developer/start.sh"]
