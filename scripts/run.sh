@@ -8,5 +8,5 @@ docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     --device /dev/snd \
     --group-add $(getent group audio | cut -d: -f3) \
-    -v /home/squid/.local/share/dolphin-emu/Games:/home/developer/.local/share/dolphin-emu/Games \
+    -v ${HOME}/.local/share/dolphin-emu/Games:/home/developer/.local/share/dolphin-emu/Games \
     smashbot $@
