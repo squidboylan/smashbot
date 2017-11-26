@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install git -y && \
     apt-get -y install alsa-utils && \
     apt-get install python python-pip python-virtualenv -y
 
-
 RUN apt install cmake pkg-config git libao-dev libasound2-dev \
     libavcodec-dev libavformat-dev libbluetooth-dev libenet-dev \
     libgtk2.0-dev liblzo2-dev libminiupnpc-dev libopenal-dev \
@@ -39,6 +38,11 @@ RUN mkdir -p /home/developer/.local/share/dolphin-emu/Games && \
     mkdir -p /home/developer/.local/share/dolphin-emu/Pipes && \
     mkdir -p /home/developer/.config/dolphin-emu
 
+#RUN apt-get install x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
+    #xfonts-cyrillic x11-apps -y
+
+RUN apt-get install xvfb -y
+
 RUN chown -Rh developer /home/developer
 
 ENV PATH /home/squid/firefox:/home/squid/bin:/home/squid/bin:/usr/local/bin:/usr/bin:/bin:/usr/lib/mit/sbin
@@ -53,6 +57,5 @@ RUN chown developer -Rh /home/developer ; chmod +x /home/developer/start.sh
 
 USER developer
 ENV HOME /home/developer
-ENV DISPLAY :0
 
 CMD ["/home/developer/start.sh"]
