@@ -33,7 +33,8 @@ RUN git clone https://github.com/squidboylan/libdolphin.git \
 
 RUN git clone https://github.com/squidboylan/dolphin.git \
     /home/developer/dolphin && mkdir /home/developer/dolphin/build && \
-    cd /home/developer/dolphin/build ; cmake .. ; make -j16 ; make install ; \
+    cd /home/developer/dolphin/build ; git checkout memorywatcher-fork; \
+    cmake .. ; make -j4 ; make install ; \
     rm -rf /home/developer/dolphin
 
 RUN mkdir -p /home/developer/.local/share/dolphin-emu/Games && \
@@ -48,7 +49,7 @@ RUN virtualenv /home/developer/venv -p /usr/bin/python3 && \
     /home/developer/libdolphin/requirements.txt && \
     /home/developer/venv/bin/pip install -e /home/developer/libdolphin && chown -Rh developer /home/developer/venv
 
-ENV PATH /home/squid/firefox:/home/squid/bin:/home/squid/bin:/usr/local/bin:/usr/bin:/bin:/usr/lib/mit/sbin:/usr/games/
+ENV PATH /home/squid/firefox:/home/squid/bin:/home/squid/bin:/usr/local/bin:/usr/bin:/bin:/usr/lib/mit/sbin
 RUN rm -rf /var/lib/apt/lists/*
 
 USER developer
