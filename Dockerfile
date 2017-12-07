@@ -27,7 +27,7 @@ RUN export uid=1001 gid=33 && \
     chmod 0440 /etc/sudoers.d/developer && \
     chown ${uid}:${gid} -R /home/developer
 
-RUN git clone https://github.com/squidboylan/dolphin.git \
+RUN git clone --depth 1 https://github.com/squidboylan/dolphin.git \
     /home/developer/dolphin && mkdir /home/developer/dolphin/build && \
     cd /home/developer/dolphin/build ; git checkout memorywatcher-fork; \
     cmake .. ; make -j4 ; make install ; \
@@ -41,7 +41,7 @@ RUN mkdir -p /home/developer/.local/share/dolphin-emu/Games && \
 #RUN apt-get install x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
     #xfonts-cyrillic x11-apps -y
 
-RUN apt-get install xvfb -y
+RUN apt-get update && apt-get install xvfb -y
 
 RUN chown -Rh developer /home/developer
 

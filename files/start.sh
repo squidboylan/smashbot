@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-git clone https://github.com/squidboylan/libdolphin.git /home/developer/libdolphin
+git clone --depth 1 https://github.com/squidboylan/libdolphin.git /home/developer/libdolphin
 
 virtualenv /home/developer/venv -p /usr/bin/python3 && \
     /home/developer/venv/bin/pip install -r \
